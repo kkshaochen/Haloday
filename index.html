@@ -2,54 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Zodiac Color Selection</title>
+  <title>Select Your Zodiac Sign</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f6f6f6;
+      font-family: Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #000000;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
       margin: 0;
     }
-    .box {
-      background: white;
-      padding: 24px;
-      border-radius: 14px;
-      width: 90%;
-      max-width: 360px;
+
+    .container {
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      max-width: 320px;
+      width: 100%;
     }
+
     h2 {
-      margin-top: 0;
-      font-weight: 600;
+      margin-bottom: 24px;
+      font-weight: 500;
     }
-    select, button {
+
+    select {
       width: 100%;
       padding: 12px;
-      margin-top: 16px;
       font-size: 16px;
+      margin-bottom: 20px;
     }
+
     button {
-      background: black;
-      color: white;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background: #000;
+      color: #fff;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
     }
+
     .result {
-      margin-top: 20px;
-      font-size: 17px;
+      margin-top: 24px;
+      font-size: 15px;
     }
   </style>
 </head>
 
 <body>
-  <div class="box">
+  <div class="container">
     <h2>Select Your Zodiac Sign</h2>
 
     <select id="astro">
@@ -68,19 +72,41 @@
       <option>Pisces</option>
     </select>
 
-    <button onclick="confirmAstro()">Confirm</button>
+    <button onclick="submitAstro()">Confirm</button>
 
     <div class="result" id="result"></div>
   </div>
 
   <script>
-    function confirmAstro() {
+    // IMPORTANT: this is the receiving endpoint, NOT the view page
+    const WEBHOOK_URL = "https://webhook.site/ea4cc3bb-1b75-4ea4-b6f1-0e95cb61a295";
+
+    function submitAstro() {
       const astro = document.getElementById("astro").value;
-      if (!astro) return;
+      const result = document.getElementById("result");
 
-      // Display feedback for the visitor
-      document.getElementById("result").innerText =
-        "You selected: " + astro;
+      if (!astro) {
+        result.innerText = "Please select a zodiac sign.";
+        return;
+      }
 
-      // Save as local shared state (temporary)
-      localStorage.set
+      // Immediate feedback for exhibition users
+      result.innerHTML = "Submitting...";
+
+      // no-cors avoids browser blocking (GitHub Pages safe)
+      fetch(WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: astro
+      });
+
+      // We cannot read response in no-cors, so treat as success
+      result.innerHTML =
+        "Submitted successfully.<br>Your zodiac sign: <strong>" + astro + "</strong>";
+    }
+  </script>
+</body>
+</html>
