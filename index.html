@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zodiac Color Selection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f6f6f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: white;
+      padding: 24px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    h2 {
+      margin-top: 0;
+      font-weight: 600;
+    }
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      font-size: 16px;
+    }
+    button {
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 17px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Select Your Zodiac Sign</h2>
+
+    <select id="astro">
+      <option value="">— Choose one —</option>
+      <option>Aries</option>
+      <option>Taurus</option>
+      <option>Gemini</option>
+      <option>Cancer</option>
+      <option>Leo</option>
+      <option>Virgo</option>
+      <option>Libra</option>
+      <option>Scorpio</option>
+      <option>Sagittarius</option>
+      <option>Capricorn</option>
+      <option>Aquarius</option>
+      <option>Pisces</option>
+    </select>
+
+    <button onclick="confirmAstro()">Confirm</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function confirmAstro() {
+      const astro = document.getElementById("astro").value;
+      if (!astro) return;
+
+      // Display feedback for the visitor
+      document.getElementById("result").innerText =
+        "You selected: " + astro;
+
+      // Save as local shared state (temporary)
+      localStorage.set
